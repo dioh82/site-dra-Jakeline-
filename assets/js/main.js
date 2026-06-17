@@ -1,13 +1,12 @@
-
 /**
  * Dra. Clínica Premium - Main JavaScript Core Logic
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     // --- 1. HEADER SCROLL EFFECT ---
     const mainHeader = document.getElementById('mainHeader');
-    
+
     function toggleHeaderScrollClass() {
         if (window.scrollY > 50) {
             mainHeader.classList.add('navbar-scrolled');
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mainHeader.classList.remove('navbar-scrolled');
         }
     }
-    
+
     // Initial check and scroll listener
     toggleHeaderScrollClass();
     window.addEventListener('scroll', toggleHeaderScrollClass);
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- 2. MOBILE NAVBAR AUTO-CLOSE ---
     const navLinks = document.querySelectorAll('.nav-link:not(.dropdown-toggle)');
     const navbarCollapse = document.getElementById('navbarNav');
-    
+
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             // Check if Bootstrap Collapse is active and visible
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 3. SCROLL SPY (ACTIVE NAVIGATION NAVIGATION INDICATOR) ---
     const sections = document.querySelectorAll('section[id]');
-    
+
     const scrollSpyObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -90,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const counterPacientes = document.getElementById('counterPacientes');
     const counterProcedimentos = document.getElementById('counterProcedimentos');
     const counterAnos = document.getElementById('counterAnos');
-    
+
     // Default values if [X] remains in HTML
     const defaultStats = {
         pacientes: 1500,
@@ -131,11 +130,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Ease out quad
             const easeProgress = progress * (2 - progress);
             const currentValue = Math.floor(easeProgress * (end - start) + start);
-            
+
             // Format number with thousand separator
             const formatted = currentValue.toLocaleString('pt-BR');
             element.textContent = prefix + formatted;
-            
+
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             } else {
@@ -160,11 +159,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- 6. PHONE NUMBER INPUT MASK ---
     const phoneInput = document.getElementById('formPhone');
-    
+
     if (phoneInput) {
-        phoneInput.addEventListener('input', function(e) {
+        phoneInput.addEventListener('input', function (e) {
             let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
-            
+
             if (!x[2]) {
                 e.target.value = x[1];
             } else {
@@ -173,10 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Prevent typing non-numeric keys manually just in case
-        phoneInput.addEventListener('keydown', function(e) {
+        phoneInput.addEventListener('keydown', function (e) {
             const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Home', 'End'];
             if (allowedKeys.includes(e.key)) return;
-            
+
             // Allow only numbers
             if (!/\d/.test(e.key)) {
                 e.preventDefault();
@@ -191,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const formErrorAlert = document.getElementById('formErrorAlert');
 
     if (leadForm) {
-        leadForm.addEventListener('submit', function(event) {
+        leadForm.addEventListener('submit', function (event) {
             event.preventDefault();
             event.stopPropagation();
 
@@ -259,16 +258,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Success feedback
                 formSuccessAlert.classList.remove('d-none');
                 leadForm.reset();
-                
+
                 // Clear validation classes
                 name.classList.remove('is-valid');
                 phone.classList.remove('is-valid');
                 email.classList.remove('is-valid');
                 consent.classList.remove('is-valid');
-                
+
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Enviar Solicitação de Avaliação';
-                
+
                 // Marketing Conversion Track Call
                 trackMarketingLead(name.value, email.value, phone.value);
             }, 1500);
@@ -280,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Helper function for tracking lead submissions
     function trackMarketingLead(name, email, phone) {
         console.log('Lead Capturado com Sucesso: ', { name, email, phone });
-        
+
         // Google Analytics 4 Custom Event Trigger
         if (typeof gtag === 'function') {
             gtag('event', 'generate_lead', {
@@ -311,9 +310,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     whatsappElements.forEach(element => {
         if (element) {
-            element.addEventListener('click', function() {
+            element.addEventListener('click', function () {
                 console.log('WhatsApp CTA Clicado: ' + element.id);
-                
+
                 // Google Analytics 4 Custom Event Trigger
                 if (typeof gtag === 'function') {
                     gtag('event', 'click_whatsapp', {
